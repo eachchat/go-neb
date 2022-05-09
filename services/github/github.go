@@ -151,6 +151,15 @@ func (s *Service) cmdGithubSearch(roomID id.RoomID, userID id.UserID, args []str
 	}, nil
 }
 
+func (s *Service) cmdGithubLogin(roomID id.RoomID, userID id.UserID, args []string) (interface{}, error) {
+	return &mevt.MessageEventContent{
+		Body:          "请点击以登录GitHub账号。",
+		MsgType:       mevt.MsgText,
+		Format:        mevt.FormatHTML,
+		FormattedBody: `请点击以<a href="https://github.com/login/oauth/authorize">登录GitHub账号</a>。`,
+	}, nil
+}
+
 const cmdGithubCreateUsage = `!github create [owner/repo] "issue title" "description"`
 
 func (s *Service) cmdGithubCreate(roomID id.RoomID, userID id.UserID, args []string) (interface{}, error) {
@@ -578,6 +587,12 @@ func (s *Service) expandCommit(roomID id.RoomID, userID id.UserID, owner, repo, 
 // is no link, it will return a Starter Link instead.
 func (s *Service) Commands(cli types.MatrixClient) []types.Command {
 	return []types.Command{
+		{
+			Path: []string{"github", "login"},
+			Command: func(roomID id.RoomID, userID id.UserID, args []string) (interface{}, error) {
+				return s.cmdGithubLogin(roomID, userID, args)
+			},
+		},
 		{
 			Path: []string{"github", "search"},
 			Command: func(roomID id.RoomID, userID id.UserID, args []string) (interface{}, error) {

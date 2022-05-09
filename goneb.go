@@ -247,6 +247,7 @@ func main() {
 			}, &dugong.DailyRotationSchedule{GZip: false},
 		))
 		log.SetOutput(ioutil.Discard)
+		log.SetReportCaller(true)
 	}
 
 	log.Infof("Go-NEB (%+v)", e)
