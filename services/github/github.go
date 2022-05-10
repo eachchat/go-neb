@@ -100,13 +100,14 @@ const cmdGithubSearchUsage = `!github search "search query"`
 
 func (s *Service) cmdGithubSearch(roomID id.RoomID, userID id.UserID, args []string) (interface{}, error) {
 	cli := s.githubClientFor(userID, true)
+	log.Infof("Go-NEB (%+v)", args)
 	if len(args) < 2 {
 		return &mevt.MessageEventContent{
 			MsgType: mevt.MsgNotice,
 			Body:    "Usage: " + cmdGithubSearchUsage,
 		}, nil
 	}
-
+	log.Info("search")
 	query := strings.Join(args, " ")
 	searchResult, res, err := cli.Search.Issues(context.Background(), query, nil)
 
