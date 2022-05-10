@@ -230,6 +230,7 @@ func runCommandForService(cmds []types.Command, event *mevt.Event, arguments []s
 		"room_id": event.RoomID,
 		"user_id": event.Sender,
 		"command": bestMatch.Path,
+		"args":    cmdArgs,
 	}).Info("Executing command")
 	content, err := bestMatch.Command(event.RoomID, event.Sender, cmdArgs)
 	if err != nil {
